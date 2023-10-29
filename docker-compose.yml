@@ -1,0 +1,36 @@
+version: '3.1'
+
+services:
+  mariadb:
+    image: mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: 2wsx1qaz
+      MYSQL_DATABASE: mhs
+      MYSQL_USER: masga
+      MYSQL_PASSWORD: masga
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - mynetwork
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      PMA_HOST: mariadb
+      PMA_PORT: 3306
+      MYSQL_ROOT_PASSWORD: 2wsx1qaz
+    ports:
+      - "8080:80"
+    depends_on:
+      - mariadb
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
+    driver: bridge
+
+volumes:
+  mariadb_data:
